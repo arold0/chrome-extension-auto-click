@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "Auto Clicker",
+    "version": "1.0",
+    "description": "Automatiza clics en un botón y notifica cambios en website mediante SMS.",
+    "permissions": ["notifications", "scripting", "activeTab", "alarms"],
+    "host_permissions": ["*://*/*"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "icon.png"
+    },
+    "icons": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  }
+  
