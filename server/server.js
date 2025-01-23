@@ -7,16 +7,21 @@ app.use(express.json());
 
 const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
-app.post('/notify', (req, res) => {
-  const { message } = req.body;
-  client.messages
-    .create({
+app.post('/notify', async (req, res) => {
+  try {
+    const { message } = req.body;
+    const response = await client.messages.create({
       body: message,
-      from: process.env.TWILIO_PHONE_NUMBER,
-      to: process.env.RECIPIENT_PHONE_NUMBER
-    })
-    .then(() => res.status(200).send('SMS enviado'))
-    .catch(err => res.status(500).send(err));
+      from: 'whatsapp:+14155238886', // Número del sandbox de WhatsApp
+      to: `whatsapp:${process.env.RECIPIENT_PHONE_NUMBER}` // Número destino registrado
+    });
+    console.log('Mensaje de WhatsApp enviado:', response.sid);
+    res.status(200).send('Mensaje de WhatsApp enviado con éxito');
+  } catch (error) {
+    console.error('Error al enviar el mensaje de WhatsApp:', error);
+    res.status(500).send('Error al enviar el mensaje de WhatsApp');
+  }
 });
 
-app.listen(3000, () => console.log('Servidor corriendo en http://localhost:3000'));
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
